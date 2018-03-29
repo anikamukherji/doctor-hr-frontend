@@ -8,18 +8,20 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <body>
+      <body>
+       <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
           <div className="App">
             <header className="App-header">
               <h1 className="App-title">
+                <a href="https://github.com/anikamukherji/heart-rate-app" className="effect-box">
                 Anika Mukherji's BME590 Project
+                </a>
               </h1>
             </header>
             <HeartRateSearch/>
           </div>
-        </body>
-      </MuiThemeProvider>
+       </MuiThemeProvider>
+      </body>
     );
   }
 }

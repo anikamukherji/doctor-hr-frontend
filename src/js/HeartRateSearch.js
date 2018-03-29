@@ -6,6 +6,16 @@ import axios from 'axios'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import {cyan500} from 'material-ui/styles/colors';
+
+const muiThemeWhiteText = getMuiTheme({
+  textField: {
+    textColor: 'white',
+    hintColor: 'white',
+    labelColor: 'white',
+    floatingLabelColor: cyan500,
+  },
+});
 
 
 
@@ -14,28 +24,50 @@ class HeartRateSearch extends Component {
   constructor() {
     super();
     this.state = {
-      "curr_user": "None",
-      "graph_visible": false,
+      currUser: null,
+      userHR: [null],
+      graphVisible: false,
     };
+    this.getHR = this.getHR.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  getHR(event) {
+    var requestURL = "http://vcm-3576.vm.duke.edu:5000/api/heart_rate/" + this.state.currUser
+    axios.get(requestURL).then( (response) => { 
+      console.log(response.status);
+      this.setState({userHR: response.data});
+    }); 
+  }
+
+  handleChange(event) {
+    this.setState({currUser: event.target.value});
   }
 
   render() {
     return (
       <div className="hrsearch-body">
-        <div className="email-field">
-          <TextField
-            hintText="Who Are You?"
-            floatingLabelText="Email"
-            type="Email" />
-        </div>
-      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-        <div className="email-search-button">
-          <RaisedButton 
-            primary={true}
-            label="Find Heart Rate"
-            labelColor="white" />
-        </div>
-      </MuiThemeProvider>
+        <MuiThemeProvider muiTheme={muiThemeWhiteText}>
+          <div className="email-field">
+            <TextField
+              hintText="Who Are You?"
+              floatingLabelText="Email"
+              type="Email" 
+              onChange={this.handleChange} />
+          </div>
+        </MuiThemeProvider>
+        <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+          <div className="email-search-button">
+            <RaisedButton 
+              primary={true}
+              label="Find Heart Rate"
+              labelColor="white" 
+              onClick={this.getHR}/>
+          </div>
+          <p className="text">Heart rates for this user are ...</p>
+          <br/>
+          <p className="text">{this.state.userHR}</p>
+        </MuiThemeProvider>
       </div>
     );
   }
