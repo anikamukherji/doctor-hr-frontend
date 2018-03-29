@@ -23,17 +23,24 @@ class HeartRateSearch extends Component {
   constructor() {
     super();
     this.state = {
-      "curr_user": null,
-      "user_hr": [null],
-      "graph_visible": false,
+      currUser: null,
+      userHR: [null],
+      graphVisible: false,
     };
+    this.getHR = this.getHR.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  getHR = () => {
-    axios.get("http://vcm-3576.vm.duke.edu:5000/api/heart_rate/anika@anika.com").then( (response) => { 
+  getHR(event) {
+    var requestURL = "http://vcm-3576.vm.duke.edu:5000/api/heart_rate/{0}".format(event.target.value)
+    axios.get(requestURL).then( (response) => { 
       console.log(response.status);
-      this.setState({"user_hr": response.data});
+      this.setState({userHR: response.data});
     }); 
+  }
+
+  handleChange(event) {
+    this.setState({currUser: event.target.value});
   }
 
   render() {
@@ -45,7 +52,7 @@ class HeartRateSearch extends Component {
               hintText="Who Are You?"
               floatingLabelText="Email"
               type="Email" 
-              ref="textField" />
+              onChange={this.handleChange} />
           </div>
         </MuiThemeProvider>
         <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
@@ -55,6 +62,7 @@ class HeartRateSearch extends Component {
               label="Find Heart Rate"
               labelColor="white" 
               onClick={this.getHR}/>
+            <p>{this.state.userHR}</p>
           </div>
         </MuiThemeProvider>
       </div>
