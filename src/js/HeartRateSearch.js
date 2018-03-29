@@ -10,6 +10,7 @@ import {cyan500} from 'material-ui/styles/colors';
 
 const muiThemeWhiteText = getMuiTheme({
   textField: {
+    textColor: 'white',
     hintColor: 'white',
     labelColor: 'white',
     floatingLabelColor: cyan500,
@@ -32,7 +33,7 @@ class HeartRateSearch extends Component {
   }
 
   getHR(event) {
-    var requestURL = "http://vcm-3576.vm.duke.edu:5000/api/heart_rate/{0}".format(event.target.value)
+    var requestURL = "http://vcm-3576.vm.duke.edu:5000/api/heart_rate/" + this.state.currUser
     axios.get(requestURL).then( (response) => { 
       console.log(response.status);
       this.setState({userHR: response.data});
@@ -62,8 +63,10 @@ class HeartRateSearch extends Component {
               label="Find Heart Rate"
               labelColor="white" 
               onClick={this.getHR}/>
-            <p>{this.state.userHR}</p>
           </div>
+          <p className="text">Heart rates for this user are ...</p>
+          <br/>
+          <p className="text">{this.state.userHR}</p>
         </MuiThemeProvider>
       </div>
     );
