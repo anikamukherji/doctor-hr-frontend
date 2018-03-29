@@ -26,6 +26,7 @@ class HeartRateSearch extends Component {
     this.state = {
       currUser: null,
       userHR: [null],
+      numHR: null,
       graphVisible: false,
     };
     this.getHR = this.getHR.bind(this);
@@ -36,7 +37,10 @@ class HeartRateSearch extends Component {
     var requestURL = "http://vcm-3576.vm.duke.edu:5000/api/heart_rate/" + this.state.currUser
     axios.get(requestURL).then( (response) => { 
       console.log(response.status);
-      this.setState({userHR: response.data});
+      this.setState({
+                      userHR: response.data,
+                      numHR: response.data.length,
+                    });
     }); 
   }
 
@@ -64,9 +68,10 @@ class HeartRateSearch extends Component {
               labelColor="white" 
               onClick={this.getHR}/>
           </div>
-          <p className="text">Heart rates for this user are ...</p>
-          <br/>
-          <p className="text">{this.state.userHR}</p>
+          <p className="text">Most recent heart rates for this user is...</p>
+          <p className="text">{this.state.userHR[this.state.numHR - 1]}</p>
+          <p className="text">Total number heart rates stored for this user is...</p>
+          <p className="text">{this.state.numHR}</p>
         </MuiThemeProvider>
       </div>
     );
