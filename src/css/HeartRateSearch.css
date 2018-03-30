@@ -11,3 +11,11 @@
   color: white;
   font-family: 'Dosis', sans-serif;
 }
+
+.graph {
+  background-color: white;
+}
+
+.chart {
+  margin: auto;
+}
