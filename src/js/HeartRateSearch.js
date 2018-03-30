@@ -7,7 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import {cyan500} from 'material-ui/styles/colors';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 
 const muiThemeWhiteText = getMuiTheme({
@@ -56,7 +56,7 @@ class HeartRateSearch extends Component {
     var newArr = [] 
     for (var i = 0; i < array.length; i++) {
       newArr.push({
-                  "data": array[i],
+                  "heart rate": array[i],
                   "label": ""
                   }) 
     }
@@ -73,10 +73,11 @@ class HeartRateSearch extends Component {
       return (
           <div className="graph">
             <LineChart className="chart" width={400} height={400} data={this.state.graphData}>
-              <CartesianGrid />
-              <Line type="monotone" dataKey="data" stroke={cyan500} />
-              <XAxis dataKey="label"/>
-              <YAxis />
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
+              <Line type="monotone" dataKey="heart rate" stroke={cyan500} activeDot={{r: 8}}/>
+              <Tooltip/>
+              <XAxis dataKey="label" stroke='white'/>
+              <YAxis stroke='white'/>
             </LineChart>
           </div>
         )
