@@ -34,6 +34,7 @@ class HeartRateSearch extends Component {
     this.getHR = this.getHR.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.formatData = this.formatData.bind(this);
+    this.renderGraph = this.renderGraph.bind(this);
   }
 
   getHR(event) {
@@ -46,6 +47,7 @@ class HeartRateSearch extends Component {
                       numHR: response.data.length,
                       maxHR: Math.max(...response.data),
                       graphData: gData,
+                      graphVisible: true,
                     });
     }); 
   }
@@ -64,6 +66,21 @@ class HeartRateSearch extends Component {
 
   handleChange(event) {
     this.setState({currUser: event.target.value});
+  }
+
+  renderGraph() {
+    if (this.state.graphVisible) {
+      return (
+          <div className="graph">
+            <LineChart className="chart" width={400} height={400} data={this.state.graphData}>
+              <CartesianGrid />
+              <Line type="monotone" dataKey="data" stroke={cyan500} />
+              <XAxis dataKey="label"/>
+              <YAxis />
+            </LineChart>
+          </div>
+        )
+      }
   }
 
   render() {
@@ -92,14 +109,7 @@ class HeartRateSearch extends Component {
           <p className="text">{this.state.numHR}</p>
           <p className="text">Max heart rate stored for this user is...</p>
           <p className="text">{this.state.maxHR}</p>
-          <div className="graph">
-            <LineChart className="chart" width={400} height={400} data={this.state.graphData}>
-              <CartesianGrid />
-              <Line type="monotone" dataKey="data" stroke={cyan500} />
-              <XAxis dataKey="label"/>
-              <YAxis />
-            </LineChart>
-          </div>
+          {this.renderGraph()}
         </MuiThemeProvider>
       </div>
     );
