@@ -16,6 +16,15 @@
   background-color: none;
 }
 
+.graph-title {
+  color: white;
+  font-family: 'Dosis', sans-serif;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  text-shadow: #00BCD4 0px 3px 3px;
+}
+
 .chart {
   margin: auto;
 }

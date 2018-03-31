@@ -9,6 +9,8 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import {cyan500} from 'material-ui/styles/colors';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
+var hostName = "http://vcm-3576.vm.duke.edu:5000/" 
+
 
 const muiThemeWhiteText = getMuiTheme({
   textField: {
@@ -31,28 +33,23 @@ class HeartRateSearch extends Component {
       maxHR: null,
       graphVisible: false,
     };
-    this.getHR = this.getHR.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.formatData = this.formatData.bind(this);
-    this.renderGraph = this.renderGraph.bind(this);
   }
 
-  getHR(event) {
-    var requestURL = "http://vcm-3576.vm.duke.edu:5000/api/heart_rate/" + this.state.currUser
-    axios.get(requestURL).then( (response) => { 
+  getHR = event => {
+    var requestURL = hostName + "api/heart_rate/" + this.state.currUser
+    axios.get(requestURL).then( response => { 
       console.log(response.status);
-      var gData = this.formatData(response.data)
       this.setState({
                       userHR: response.data,
                       numHR: response.data.length,
                       maxHR: Math.max(...response.data),
-                      graphData: gData,
+                      graphData: this.formatData(response.data),
                       graphVisible: true,
                     });
     }); 
   }
 
-  formatData(array) {
+  formatData = array => {
     var newArr = [] 
     for (var i = 0; i < array.length; i++) {
       newArr.push({
@@ -60,18 +57,19 @@ class HeartRateSearch extends Component {
                   "label": ""
                   }) 
     }
-    newArr[array.length-1].label = "Most Recent"
+    newArr[array.length-1].label = "most recent"
     return newArr
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({currUser: event.target.value});
   }
 
-  renderGraph() {
+  renderGraph = () => {
     if (this.state.graphVisible) {
       return (
           <div className="graph">
+            <h1 className="graph-title">all heart rates for {this.state.currUser} </h1>
             <LineChart className="chart" width={400} height={400} data={this.state.graphData}>
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5"/>
               <Line type="monotone" dataKey="heart rate" stroke={cyan500} activeDot={{r: 8}}/>

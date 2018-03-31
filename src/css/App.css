@@ -11,6 +11,7 @@ body {
   padding: 20px;
   color: white;
   font-family: 'Dosis', sans-serif;
+  font-variant: small-caps;
 }
 
 .App-title {
