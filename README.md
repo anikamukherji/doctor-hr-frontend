@@ -34,8 +34,8 @@ which will add your heart rates to the database.
 
 Here are some images of the app: 
 
-![no user](./images/one.png)
-![top with user](./images/two.png)
-![bottom with graph](./images/three.png)
+![no user](./images/one.jpg)
+![top with user](./images/two.jpg)
+![bottom with graph](./images/three.jpg)
 
 
